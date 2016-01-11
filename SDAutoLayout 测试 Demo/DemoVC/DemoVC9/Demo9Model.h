@@ -30,6 +30,8 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, strong) NSArray *picNamesArray;
-@property (nonatomic, strong) NSArray *replyArray;
+@property (nonatomic, strong) NSMutableArray *replyArray;
 @property (nonatomic) float replyHeight;
+@property (nonatomic, strong) NSMutableArray *favorArray;
+@property (nonatomic,assign) BOOL isFavour;
 @end

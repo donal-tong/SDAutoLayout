@@ -25,7 +25,17 @@
 #import "UIImageView+WebCache.h"
 @class Demo9Model;
 
+@protocol DemoVC9CellDelegate <NSObject>
+-(void)showMoreView:(NSInteger)row;
+-(void)favorTimeline:(Demo9Model *)model;
+-(void)replyTimeline:(Demo9Model *)model;
+
+@end
+
 @interface DemoVC9Cell : UITableViewCell <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Demo9Model *model;
+@property (nonatomic, assign) id<DemoVC9CellDelegate> delegate;
+@property (nonatomic, assign) NSInteger row;
+@property (nonatomic, strong) UIView *moreView;
 @end

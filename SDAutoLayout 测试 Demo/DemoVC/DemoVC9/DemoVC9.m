@@ -22,7 +22,7 @@
  */
 
 #import "DemoVC9.h"
-
+#import "UIView+SDAutoLayout.h"
 #import "Demo9Model.h"
 #import "DemoVC9Cell.h"
 
@@ -35,8 +35,10 @@
 
 #define kDemoVC9CellId @"demovc9cell"
 
-@interface DemoVC9 ()
-
+@interface DemoVC9 () <DemoVC9CellDelegate>
+{
+    NSInteger currentRow;
+}
 @property (nonatomic, strong) NSMutableArray *modelsArray;
 
 @end
@@ -149,7 +151,7 @@
             model.picNamesArray = @[@"http://ww3.sinaimg.cn/bmiddle/707da080gw1ezu8agg5dqj20ku0kutcf.jpg"];
         }
         
-        // 模拟“随机图片”
+        // 模拟“评论”
         int random1 = arc4random_uniform(5);
         
         NSMutableArray *temp1 = [NSMutableArray new];
@@ -162,9 +164,23 @@
         }
         CGFloat h = 0;
         for (NSString *txt in model.replyArray) {
-            h += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:txt andFixedWidth:[UIScreen mainScreen].bounds.size.width-30-42] + 10);
+            h += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:txt andFixedWidth:([UIScreen mainScreen].bounds.size.width-30-42)] + 6);
         }
         model.replyHeight = h;
+        
+        // 模拟“点赞”
+        model.favorArray = [NSMutableArray new];
+        int random2 = arc4random_uniform(5);
+        
+        NSMutableArray *temp2 = [NSMutableArray new];
+        for (int i = 0; i < random2; i++) {
+            int randomIndex = arc4random_uniform(4);
+            [temp2 addObject:namesArray[randomIndex]];
+        }
+        if (temp2.count) {
+            [model.favorArray addObjectsFromArray:temp2];
+        }
+        
         [self.modelsArray addObject:model];
     }
 }
@@ -189,6 +205,8 @@
     DemoVC9Cell *cell = [tableView dequeueReusableCellWithIdentifier:kDemoVC9CellId];
     cell.model = self.modelsArray[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    cell.row = indexPath.row;
     return cell;
 }
 
@@ -202,6 +220,37 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
+    cell.moreView.hidden = YES;
+//    self.tableView ce
+}
+
+#pragma mark cell delegate
+-(void)favorTimeline:(Demo9Model *)model
+{
+    if (model.isFavour) {
+        [model.favorArray removeObject:@"小明"];
+    }
+    else {
+        [model.favorArray addObject:@"小明"];
+    }
+    model.isFavour = !model.isFavour;
+    [self.tableView reloadData];
+//    self.view.sd_layout.updateLayout;
+}
+
+-(void)replyTimeline:(Demo9Model *)model
+{
+    
+}
+
+-(void)showMoreView:(NSInteger)row
+{
+    currentRow = row;
 }
 
 @end

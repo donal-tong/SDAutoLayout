@@ -32,7 +32,7 @@
     [self.contentView addSubview:_contentLabel];
     
     UIView *contentView = self.contentView;
-    CGFloat margin = 10;
+    CGFloat margin = 6;
     
     _contentLabel.sd_layout
     .leftSpaceToView(contentView, 0)

@@ -48,12 +48,11 @@
     UILabel *_favorLabel;
     UITableView *_replayTableView;
     UIButton *_moreButton;
-    UIView *_moreView;
+    
     UIButton *_moreFavorButton;
     UIButton *_moreReplyButton;
     UIView *_moreSeperatorView;
 }
-
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -105,6 +104,7 @@
     _moreFavorButton = [UIButton new];
     [_moreFavorButton setImage:[UIImage imageNamed:@"more_favor"] forState:UIControlStateNormal];
     [_moreFavorButton setTitle:@"赞" forState:UIControlStateNormal];
+    [_moreFavorButton setTitle:@"取消赞" forState:UIControlStateSelected];
     _moreFavorButton.titleLabel.font = [UIFont systemFontOfSize:13];
     [_moreFavorButton setImageEdgeInsets:UIEdgeInsetsMake(0.0, -2.5, 0.0, 0.0)];
     [_moreFavorButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 2.5, 0.0, 0.0)];
@@ -122,10 +122,12 @@
     _moreSeperatorView.backgroundColor = [UIColor colorWithRed:55/255.0 green:61/255.0 blue:64/255.0 alpha:1.0];
     
     _favorLabel = [UILabel new];
+    [_favorLabel setLayoutMargins:UIEdgeInsetsMake(5, 0, 5, 0)];
     _favorLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
     _favorLabel.textColor = [UIColor colorWithRed:87/255.0 green:107/255.0 blue:149/255.0 alpha:1.0];
     _favorLabel.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
-    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-30-42, 1)];
+    lineView.backgroundColor = [UIColor lightGrayColor];
     _replayTableView = [UITableView new];
     _replayTableView.tableHeaderView = nil;
 //    _replayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -133,6 +135,7 @@
     _replayTableView.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
     _replayTableView.delegate = self;
     _replayTableView.dataSource = self;
+    _replayTableView.tableHeaderView = lineView;
    
     NSArray *views = @[_iconView, _nameLable, _contentLabel, _picContainerView, _videoView, _urlView, _timeLabel, _moreButton, _favorLabel, _replayTableView, _moreView];
     
@@ -308,10 +311,13 @@
                                 placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         _urlTitleLable.text = model.content;
     }
-    
+    _moreView.hidden = YES;
     _timeLabel.text = @"1分钟前";
-    _favorLabel.text = @"小米,小蜜,小红,小王, 小米,小蜜,小红,小王, 小米,小蜜,小红,小王";
-    
+    if (model.favorArray.count > 0) {
+        NSString *favorString = [model.favorArray componentsJoinedByString:@","];
+        _favorLabel.text = favorString;
+    }
+    _moreFavorButton.selected = _model.isFavour;
      _replayTableView.sd_layout.heightIs(model.replyHeight);
     [_replayTableView reloadData];
     
@@ -348,15 +354,18 @@
 -(void)didClickMore:(id)sender
 {
     _moreView.hidden = !_moreView.hidden;
+    [self.delegate showMoreView:_row];
 }
 
 -(void)didClickMoreFavor:(id)sender
 {
     _moreView.hidden = !_moreView.hidden;
+    [self.delegate favorTimeline:_model];
 }
 
 -(void)didClickMoreReply:(id)sender
 {
     _moreView.hidden = !_moreView.hidden;
+    [self.delegate replyTimeline:_model];
 }
 @end
