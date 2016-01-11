@@ -25,10 +25,11 @@
 #import <Foundation/Foundation.h>
 
 @interface Demo9Model : NSObject
-
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, copy) NSString *iconName;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, strong) NSArray *picNamesArray;
-
+@property (nonatomic, strong) NSArray *replyArray;
+@property (nonatomic) float replyHeight;
 @end

@@ -22,11 +22,10 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "UIImageView+WebCache.h"
 @class Demo9Model;
 
-@interface DemoVC9Cell : UITableViewCell
+@interface DemoVC9Cell : UITableViewCell <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Demo9Model *model;
-
 @end

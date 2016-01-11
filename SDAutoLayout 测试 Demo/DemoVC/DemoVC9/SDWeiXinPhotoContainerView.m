@@ -27,6 +27,7 @@
 #import "UIView+SDAutoLayout.h"
 
 #import "SDPhotoBrowser.h"
+#import "UIImageView+WebCache.h"
 
 @interface SDWeiXinPhotoContainerView () <SDPhotoBrowserDelegate>
 
@@ -95,8 +96,11 @@
         long rowIndex = idx / perRowItemCount;
         UIImageView *imageView = [_imageViewsArray objectAtIndex:idx];
         imageView.hidden = NO;
-        imageView.image = [UIImage imageNamed:obj];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         imageView.frame = CGRectMake(columnIndex * (itemW + margin), rowIndex * (itemH + margin), itemW, itemH);
+        [imageView sd_setImageWithURL:[NSURL URLWithString:obj]
+                          placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }];
     
     CGFloat w = perRowItemCount * itemW + (perRowItemCount - 1) * margin;
