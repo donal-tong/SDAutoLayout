@@ -363,15 +363,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - touch
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    self.messageInputView.hidden = YES;
+    [self.messageInputView.inputTextView resignFirstResponder];
+}
+
+#pragma mark - scrollview delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
     cell.moreView.hidden = YES;
-//    self.messageInputView.hidden = YES;
-//    [self.messageInputView.inputTextView resignFirstResponder];
+    self.messageInputView.hidden = YES;
+    [self.messageInputView.inputTextView resignFirstResponder];
 }
 
-#pragma mark cell delegate
+#pragma mark - cell delegate
 -(void)favorTimeline:(Demo9Model *)model
 {
     if (model.isFavour) {
@@ -389,18 +397,23 @@
 {
     self.messageInputView.hidden = NO;
     [self.messageInputView.inputTextView becomeFirstResponder];
-    NSLog(@"%f", self.messageInputView.top);
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    [self.tableView setContentOffset:CGPointMake(0, 220) animated:YES];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+([UIScreen mainScreen].bounds.size.height - self.messageInputView.top)) animated:NO];
 }
 
 -(void)showMoreView:(NSInteger)row
 {
+    if (!self.messageInputView.hidden) {
+        self.messageInputView.hidden = YES;
+        [self.messageInputView.inputTextView resignFirstResponder];
+        return;
+    }
     if (currentRow > -1 && currentRow != row) {
         DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
         cell.moreView.hidden = YES;
     }
     currentRow = row;
+    
 //    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
     
 }
