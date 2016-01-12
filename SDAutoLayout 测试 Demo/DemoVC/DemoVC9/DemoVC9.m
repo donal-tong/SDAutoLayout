@@ -35,10 +35,11 @@
 #define kDemoVC9CellId @"demovc9cell"
 
 @interface DemoVC9 () <DemoVC9CellDelegate, XHMessageInputViewDelegate, UITableViewDataSource, UITableViewDelegate>
-{
-    NSInteger currentRow;
-}
+@property (nonatomic)  NSInteger currentRow;
 @property (nonatomic, strong) NSMutableArray *modelsArray;
+@property (nonatomic) float originalKeyboardHeight;
+@property (nonatomic) float changeKeyboardHeight;
+@property (nonatomic) float originalContentOffsetY;
 @end
 
 @implementation DemoVC9
@@ -159,7 +160,11 @@
                                   delay:0.0
                                 options:options
                              animations:^{
-                                 NSLog(@"%i", showKeyboard);
+                                 if (!showKeyboard) {
+                                     NSLog(@"no show");
+                                     weakSelf.originalKeyboardHeight = 0;
+                                     weakSelf.changeKeyboardHeight = 0;
+                                 }
                                  CGFloat keyboardY = [weakSelf.view convertRect:keyboardRect fromView:nil].origin.y;
                                  
                                  CGRect inputViewFrame = weakSelf.messageInputView.frame;
@@ -175,12 +180,24 @@
                                                                               inputViewFrame.size.width,
                                                                               inputViewFrame.size.height);
                                  
-                                 //                                 [weakSelf setTableViewInsetsWithBottomValue:weakSelf.view.frame.size.height
-                                 //                                  - weakSelf.messageInputView.frame.origin.y];
-                                 //                                 if (showKeyboard)
-                                 //                                     [weakSelf scrollToBottomAnimated:NO];
+//                                 [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                                 
+                                 
+                                 if (showKeyboard) {
+                                     if (weakSelf.originalKeyboardHeight != keyboardY) {
+                                         weakSelf.changeKeyboardHeight = weakSelf.originalKeyboardHeight - keyboardY;
+                                         
+                                     }
+                                     if (weakSelf.originalKeyboardHeight != 0 ) {
+                                         NSLog(@"change %f", weakSelf.changeKeyboardHeight);
+                                         [weakSelf.tableView setContentOffset:CGPointMake(0, weakSelf.tableView.contentOffset.y+weakSelf.changeKeyboardHeight) animated:NO];
+                                     }
+                                     weakSelf.originalKeyboardHeight = keyboardY;
+                                 }
+                                 
                              }
-                             completion:nil];
+                             completion:^(BOOL finished) {
+                             }];
         }
     };
     self.tableView.keyboardDidChange = ^(BOOL didShowed) {
@@ -216,6 +233,7 @@
     
     _messageInputView = inputView;
     _messageInputView.hidden = YES;
+    NSLog(@"init %f", _messageInputView.top);
 }
 
 - (void)creatModelsWithCount:(NSInteger)count
@@ -373,7 +391,7 @@
 #pragma mark - scrollview delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
+    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0]];
     cell.moreView.hidden = YES;
     self.messageInputView.hidden = YES;
     [self.messageInputView.inputTextView resignFirstResponder];
@@ -397,8 +415,11 @@
 {
     self.messageInputView.hidden = NO;
     [self.messageInputView.inputTextView becomeFirstResponder];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+([UIScreen mainScreen].bounds.size.height - self.messageInputView.top)) animated:NO];
+    if (self.originalContentOffsetY==0) {
+        self.originalContentOffsetY = self.messageInputView.top;
+    }
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+(self.view.height - self.originalContentOffsetY)) animated:NO];
 }
 
 -(void)showMoreView:(NSInteger)row
@@ -408,11 +429,11 @@
         [self.messageInputView.inputTextView resignFirstResponder];
         return;
     }
-    if (currentRow > -1 && currentRow != row) {
-        DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
+    if (_currentRow > -1 && _currentRow != row) {
+        DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0]];
         cell.moreView.hidden = YES;
     }
-    currentRow = row;
+    _currentRow = row;
     
 //    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
     
@@ -472,6 +493,7 @@
                                  // growing the view, animate the text view frame AFTER input view frame
                                  [self.messageInputView adjustTextViewHeightBy:changeInHeight];
                              }
+                             [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+changeInHeight) animated:NO];
                          }
                          completion:^(BOOL finished) {
                          }];
@@ -512,12 +534,12 @@
 //    }
 //}
 //
-//- (void)didSendTextAction:(NSString *)text {
-//    DLog(@"text : %@", text);
+- (void)didSendTextAction:(NSString *)text {
+    NSLog(@"text : %@", text);
 //    if ([self.delegate respondsToSelector:@selector(didSendText:fromSender:onDate:)]) {
 //        [self.delegate didSendText:text fromSender:self.messageSender onDate:[NSDate date]];
 //    }
-//}
+}
 //
 //- (void)didSelectedMultipleMediaAction {
 //    DLog(@"didSelectedMultipleMediaAction");
