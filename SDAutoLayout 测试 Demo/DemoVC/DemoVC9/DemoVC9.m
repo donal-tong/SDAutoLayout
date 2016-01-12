@@ -28,19 +28,17 @@
 
 #import "DemoVC9HeaderView.h"
 
-
 #import "SDRefresh.h"
 
 #import "UITableView+SDAutoTableViewCellHeight.h"
 
 #define kDemoVC9CellId @"demovc9cell"
 
-@interface DemoVC9 () <DemoVC9CellDelegate>
+@interface DemoVC9 () <DemoVC9CellDelegate, XHMessageInputViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSInteger currentRow;
 }
 @property (nonatomic, strong) NSMutableArray *modelsArray;
-
 @end
 
 @implementation DemoVC9
@@ -48,10 +46,50 @@
     SDRefreshFooterView *_refreshFooter;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 设置键盘通知或者手势控制键盘消失
+    self.allowsPanToDismissKeyboard = NO;
+    [self.tableView setupPanGestureControlKeyboardHide:self.allowsPanToDismissKeyboard];
+    
+    // KVO 检查contentSize
+    [self.messageInputView.inputTextView addObserver:self
+                                          forKeyPath:@"contentSize"
+                                             options:NSKeyValueObservingOptionNew
+                                             context:nil];
+    
+    [self.messageInputView.inputTextView setEditable:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+//    if (self.textViewInputViewType != XHInputViewTypeNormal) {
+//        [self layoutOtherMenuViewHiden:YES];
+//    }
+    
+    // remove键盘通知或者手势
+    [self.tableView disSetupPanGestureControlKeyboardHide:self.allowsPanToDismissKeyboard];
+    
+    // remove KVO
+    [self.messageInputView.inputTextView removeObserver:self forKeyPath:@"contentSize"];
+    [self.messageInputView.inputTextView setEditable:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
+    self.tableView = [UITableView new];
+    [self.view addSubview:self.tableView];
+    self.tableView.sd_layout
+    .topSpaceToView(self.view, 0)
+    .bottomSpaceToView(self.view, 0)
+    .leftSpaceToView(self.view, 0)
+    .rightSpaceToView(self.view, 0)
+    ;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
 //    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -77,6 +115,107 @@
     headerView.frame = CGRectMake(0, 0, 0, 260);
     self.tableView.tableHeaderView = headerView;
     [self.tableView registerClass:[DemoVC9Cell class] forCellReuseIdentifier:kDemoVC9CellId];
+    [self initialization];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)initialization
+{
+    WEAKSELF
+    if (self.allowsPanToDismissKeyboard) {
+        // 控制输入工具条的位置块
+        void (^AnimationForMessageInputViewAtPoint)(CGPoint point) = ^(CGPoint point) {
+            CGRect inputViewFrame = weakSelf.messageInputView.frame;
+            CGPoint keyboardOrigin = [weakSelf.view convertPoint:point fromView:nil];
+            inputViewFrame.origin.y = keyboardOrigin.y - inputViewFrame.size.height;
+            weakSelf.messageInputView.frame = inputViewFrame;
+        };
+        
+        self.tableView.keyboardDidScrollToPoint = ^(CGPoint point) {
+            if (weakSelf.textViewInputViewType == XHInputViewTypeText)
+                AnimationForMessageInputViewAtPoint(point);
+        };
+        
+        self.tableView.keyboardWillSnapBackToPoint = ^(CGPoint point) {
+            if (weakSelf.textViewInputViewType == XHInputViewTypeText)
+                AnimationForMessageInputViewAtPoint(point);
+        };
+        
+        self.tableView.keyboardWillBeDismissed = ^() {
+            CGRect inputViewFrame = weakSelf.messageInputView.frame;
+            inputViewFrame.origin.y = weakSelf.view.bounds.size.height - inputViewFrame.size.height;
+            weakSelf.messageInputView.frame = inputViewFrame;
+        };
+    }
+    
+    // block回调键盘通知
+    self.tableView.keyboardWillChange = ^(CGRect keyboardRect, UIViewAnimationOptions options, double duration, BOOL showKeyboard) {
+        if (weakSelf.textViewInputViewType == XHInputViewTypeText) {
+            [UIView animateWithDuration:duration
+                                  delay:0.0
+                                options:options
+                             animations:^{
+                                 NSLog(@"%i", showKeyboard);
+                                 CGFloat keyboardY = [weakSelf.view convertRect:keyboardRect fromView:nil].origin.y;
+                                 
+                                 CGRect inputViewFrame = weakSelf.messageInputView.frame;
+                                 CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
+                                 
+                                 // for ipad modal form presentations
+                                 CGFloat messageViewFrameBottom = weakSelf.view.frame.size.height - inputViewFrame.size.height;
+                                 if (inputViewFrameY > messageViewFrameBottom)
+                                     inputViewFrameY = messageViewFrameBottom;
+                                 
+                                 weakSelf.messageInputView.frame = CGRectMake(inputViewFrame.origin.x,
+                                                                              inputViewFrameY,
+                                                                              inputViewFrame.size.width,
+                                                                              inputViewFrame.size.height);
+                                 
+                                 //                                 [weakSelf setTableViewInsetsWithBottomValue:weakSelf.view.frame.size.height
+                                 //                                  - weakSelf.messageInputView.frame.origin.y];
+                                 //                                 if (showKeyboard)
+                                 //                                     [weakSelf scrollToBottomAnimated:NO];
+                             }
+                             completion:nil];
+        }
+    };
+    self.tableView.keyboardDidChange = ^(BOOL didShowed) {
+        if ([weakSelf.messageInputView.inputTextView isFirstResponder]) {
+            if (didShowed) {
+                if (weakSelf.textViewInputViewType == XHInputViewTypeText) {
+                    //                    weakSelf.shareMenuView.alpha = 0.0;
+                    //                    weakSelf.emotionManagerView.alpha = 0.0;
+                }
+            }
+        }
+    };
+    
+    self.tableView.keyboardDidHide = ^() {
+        [weakSelf.messageInputView.inputTextView resignFirstResponder];
+    };
+    
+    // 设置Message TableView 的bottom edg
+    CGFloat inputViewHeight =  45.0f;
+    // 输入工具条的frame
+    CGRect inputFrame = CGRectMake(0.0f,
+                                   self.view.frame.size.height - inputViewHeight,
+                                   self.view.frame.size.width,
+                                   inputViewHeight);
+    // 初始化输入工具条
+    XHMessageInputView *inputView = [[XHMessageInputView alloc] initWithFrame:inputFrame];
+    inputView.allowsSendFace = YES;
+    inputView.allowsSendVoice = NO;
+    inputView.allowsSendMultiMedia = NO;
+    inputView.delegate = self;
+    [self.view addSubview:inputView];
+    [self.view bringSubviewToFront:inputView];
+    
+    _messageInputView = inputView;
+    _messageInputView.hidden = YES;
 }
 
 - (void)creatModelsWithCount:(NSInteger)count
@@ -197,6 +336,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    [self.tableView startAutoCellHeightWithCellClass:[DemoVC9Cell class] contentViewWidth:[UIScreen mainScreen].bounds.size.width];
     return self.modelsArray.count;
 }
 
@@ -213,8 +353,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // >>>>>>>>>>>>>>>>>>>>> * cell自适应 * >>>>>>>>>>>>>>>>>>>>>>>>
-    CGFloat h = [self cellHeightForIndexPath:indexPath cellContentViewWidth:[UIScreen mainScreen].bounds.size.width];
-    return h;
+//    CGFloat h = [self cellHeightForIndexPath:indexPath cellContentViewWidth:[UIScreen mainScreen].bounds.size.width];
+//    return h;
+    return [self.tableView cellHeightForIndexPath:indexPath model:self.modelsArray[indexPath.row] keyPath:@"model"];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -226,7 +367,8 @@
 {
     DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
     cell.moreView.hidden = YES;
-//    self.tableView ce
+//    self.messageInputView.hidden = YES;
+//    [self.messageInputView.inputTextView resignFirstResponder];
 }
 
 #pragma mark cell delegate
@@ -245,12 +387,204 @@
 
 -(void)replyTimeline:(Demo9Model *)model
 {
-    
+    self.messageInputView.hidden = NO;
+    [self.messageInputView.inputTextView becomeFirstResponder];
+    NSLog(@"%f", self.messageInputView.top);
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    [self.tableView setContentOffset:CGPointMake(0, 220) animated:YES];
 }
 
 -(void)showMoreView:(NSInteger)row
 {
+    if (currentRow > -1 && currentRow != row) {
+        DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
+        cell.moreView.hidden = YES;
+    }
     currentRow = row;
+//    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
+    
 }
+
+#pragma mark - UITextView Helper Method
+
+- (CGFloat)getTextViewContentH:(UITextView *)textView {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        return ceilf([textView sizeThatFits:textView.frame.size].height);
+    } else {
+        return textView.contentSize.height;
+    }
+}
+
+#pragma mark - Layout Message Input View Helper Method
+
+- (void)layoutAndAnimateMessageInputTextView:(UITextView *)textView {
+    CGFloat maxHeight = [XHMessageInputView maxHeight];
+    
+    CGFloat contentH = [self getTextViewContentH:textView];
+    
+    BOOL isShrinking = contentH < self.previousTextViewContentHeight;
+    CGFloat changeInHeight = contentH - _previousTextViewContentHeight;
+    
+    if (!isShrinking && (self.previousTextViewContentHeight == maxHeight || textView.text.length == 0)) {
+        changeInHeight = 0;
+    }
+    else {
+        changeInHeight = MIN(changeInHeight, maxHeight - self.previousTextViewContentHeight);
+    }
+    
+    if (changeInHeight != 0.0f) {
+        [UIView animateWithDuration:0.25f
+                         animations:^{
+                             [self setTableViewInsetsWithBottomValue:self.tableView.contentInset.bottom + changeInHeight];
+                             
+//                             [self scrollToBottomAnimated:NO];
+                             
+                             if (isShrinking) {
+                                 if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+                                     self.previousTextViewContentHeight = MIN(contentH, maxHeight);
+                                 }
+                                 // if shrinking the view, animate text view frame BEFORE input view frame
+                                 [self.messageInputView adjustTextViewHeightBy:changeInHeight];
+                             }
+                             
+                             CGRect inputViewFrame = self.messageInputView.frame;
+                             self.messageInputView.frame = CGRectMake(0.0f,
+                                                                      inputViewFrame.origin.y - changeInHeight,
+                                                                      inputViewFrame.size.width,
+                                                                      inputViewFrame.size.height + changeInHeight);
+                             if (!isShrinking) {
+                                 if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+                                     self.previousTextViewContentHeight = MIN(contentH, maxHeight);
+                                 }
+                                 // growing the view, animate the text view frame AFTER input view frame
+                                 [self.messageInputView adjustTextViewHeightBy:changeInHeight];
+                             }
+                         }
+                         completion:^(BOOL finished) {
+                         }];
+        
+        self.previousTextViewContentHeight = MIN(contentH, maxHeight);
+    }
+    
+    // Once we reached the max height, we have to consider the bottom offset for the text view.
+    // To make visible the last line, again we have to set the content offset.
+    if (self.previousTextViewContentHeight == maxHeight) {
+        double delayInSeconds = 0.01;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime,
+                       dispatch_get_main_queue(),
+                       ^(void) {
+                           CGPoint bottomOffset = CGPointMake(0.0f, contentH - textView.bounds.size.height);
+                           [textView setContentOffset:bottomOffset animated:YES];
+                       });
+    }
+}
+
+#pragma mark message input delegate
+- (void)inputTextViewWillBeginEditing:(XHMessageTextView *)messageInputTextView {
+    self.textViewInputViewType = XHInputViewTypeText;
+}
+
+- (void)inputTextViewDidBeginEditing:(XHMessageTextView *)messageInputTextView {
+    if (!self.previousTextViewContentHeight)
+        self.previousTextViewContentHeight = [self getTextViewContentH:messageInputTextView];
+}
+
+//- (void)didChangeSendVoiceAction:(BOOL)changed {
+//    if (changed) {
+//        if (self.textViewInputViewType == XHInputViewTypeText)
+//            return;
+//        // 在这之前，textViewInputViewType已经不是XHTextViewTextInputType
+//        [self layoutOtherMenuViewHiden:YES];
+//    }
+//}
+//
+//- (void)didSendTextAction:(NSString *)text {
+//    DLog(@"text : %@", text);
+//    if ([self.delegate respondsToSelector:@selector(didSendText:fromSender:onDate:)]) {
+//        [self.delegate didSendText:text fromSender:self.messageSender onDate:[NSDate date]];
+//    }
+//}
+//
+//- (void)didSelectedMultipleMediaAction {
+//    DLog(@"didSelectedMultipleMediaAction");
+//    self.textViewInputViewType = XHInputViewTypeShareMenu;
+//    [self layoutOtherMenuViewHiden:NO];
+//}
+//
+//- (void)didSendFaceAction:(BOOL)sendFace {
+//    if (sendFace) {
+//        self.textViewInputViewType = XHInputViewTypeEmotion;
+//        [self layoutOtherMenuViewHiden:NO];
+//    } else {
+//        [self.messageInputView.inputTextView becomeFirstResponder];
+//    }
+//}
+//
+//- (void)prepareRecordingVoiceActionWithCompletion:(BOOL (^)(void))completion {
+//    DLog(@"prepareRecordingWithCompletion");
+//    [self prepareRecordWithCompletion:completion];
+//}
+//
+//- (void)didStartRecordingVoiceAction {
+//    DLog(@"didStartRecordingVoice");
+//    [self startRecord];
+//}
+//
+//- (void)didCancelRecordingVoiceAction {
+//    DLog(@"didCancelRecordingVoice");
+//    [self cancelRecord];
+//}
+//
+//- (void)didFinishRecoingVoiceAction {
+//    DLog(@"didFinishRecoingVoice");
+//    if (self.isMaxTimeStop == NO) {
+//        [self finishRecorded];
+//    } else {
+//        self.isMaxTimeStop = NO;
+//    }
+//}
+//
+//- (void)didDragOutsideAction {
+//    DLog(@"didDragOutsideAction");
+//    [self resumeRecord];
+//}
+//
+//- (void)didDragInsideAction {
+//    DLog(@"didDragInsideAction");
+//    [self pauseRecord];
+//}
+
+#pragma mark - Scroll Message TableView Helper Method
+
+- (void)setTableViewInsetsWithBottomValue:(CGFloat)bottom {
+    UIEdgeInsets insets = [self tableViewInsetsWithBottomValue:bottom];
+    self.tableView.contentInset = insets;
+    self.tableView.scrollIndicatorInsets = insets;
+}
+
+- (UIEdgeInsets)tableViewInsetsWithBottomValue:(CGFloat)bottom {
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+        insets.top = self.topLayoutGuide.length;
+    }
+    
+    insets.bottom = bottom;
+    
+    return insets;
+}
+
+#pragma mark - Key-value Observing
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if (object == self.messageInputView.inputTextView && [keyPath isEqualToString:@"contentSize"]) {
+        [self layoutAndAnimateMessageInputTextView:object];
+    }
+}
+
 
 @end

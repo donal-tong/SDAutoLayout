@@ -126,16 +126,13 @@
     _favorLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
     _favorLabel.textColor = [UIColor colorWithRed:87/255.0 green:107/255.0 blue:149/255.0 alpha:1.0];
     _favorLabel.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-30-42, 1)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
     _replayTableView = [UITableView new];
     _replayTableView.tableHeaderView = nil;
-//    _replayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _replayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _replayTableView.scrollEnabled = NO;
     _replayTableView.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
     _replayTableView.delegate = self;
     _replayTableView.dataSource = self;
-    _replayTableView.tableHeaderView = lineView;
    
     NSArray *views = @[_iconView, _nameLable, _contentLabel, _picContainerView, _videoView, _urlView, _timeLabel, _moreButton, _favorLabel, _replayTableView, _moreView];
     
@@ -316,6 +313,9 @@
     if (model.favorArray.count > 0) {
         NSString *favorString = [model.favorArray componentsJoinedByString:@","];
         _favorLabel.text = favorString;
+    }
+    else {
+        _favorLabel.text = @"";
     }
     _moreFavorButton.selected = _model.isFavour;
      _replayTableView.sd_layout.heightIs(model.replyHeight);

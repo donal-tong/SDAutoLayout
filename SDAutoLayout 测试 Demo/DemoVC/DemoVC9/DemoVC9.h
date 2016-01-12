@@ -22,7 +22,27 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "XHMessageInputView.h"
+@interface DemoVC9 : UIViewController
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign, readwrite) XHInputViewType textViewInputViewType;
+/**
+ *  用于显示发送消息类型控制的工具条，在底部
+ */
+@property (nonatomic, weak, readonly) XHMessageInputView *messageInputView;
 
-@interface DemoVC9 : UITableViewController
+/**
+ *  记录旧的textView contentSize Heigth
+ */
+@property (nonatomic, assign) CGFloat previousTextViewContentHeight;
 
+/**
+ *  记录键盘的高度，为了适配iPad和iPhone
+ */
+@property (nonatomic, assign) CGFloat keyboardViewHeight;
+
+/**
+ *  是否允许手势关闭键盘，默认是允许
+ */
+@property (nonatomic, assign) BOOL allowsPanToDismissKeyboard; // default is YES
 @end

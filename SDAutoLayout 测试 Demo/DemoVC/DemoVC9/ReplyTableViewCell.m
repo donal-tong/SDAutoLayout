@@ -35,12 +35,12 @@
     CGFloat margin = 6;
     
     _contentLabel.sd_layout
-    .leftSpaceToView(contentView, 0)
-    .topSpaceToView(contentView, margin)
+    .leftSpaceToView(contentView, margin)
+    .topSpaceToView(contentView, margin/2)
     .rightSpaceToView(contentView, 0)
     .autoHeightRatio(0);
     
-    [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:0];
+    [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:margin/2];
     
 }
 

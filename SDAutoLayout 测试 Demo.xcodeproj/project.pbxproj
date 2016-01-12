@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4606BD4F1C44987C004D7FD2 /* XHMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD4A1C44987C004D7FD2 /* XHMessageInputView.m */; };
+		4606BD501C44987C004D7FD2 /* XHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD4C1C44987C004D7FD2 /* XHMessageTextView.m */; };
+		4606BD511C44987C004D7FD2 /* XHVoiceRecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD4E1C44987C004D7FD2 /* XHVoiceRecordHUD.m */; };
+		4606BD541C4498D1004D7FD2 /* NSString+MessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD531C4498D1004D7FD2 /* NSString+MessageInputView.m */; };
+		4606BD571C449901004D7FD2 /* XHConfigurationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD561C449901004D7FD2 /* XHConfigurationHelper.m */; };
+		4606BD641C44A253004D7FD2 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD581C44A253004D7FD2 /* face@2x.png */; };
+		4606BD651C44A253004D7FD2 /* face_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD591C44A253004D7FD2 /* face_HL@2x.png */; };
+		4606BD661C44A253004D7FD2 /* keyboard_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5A1C44A253004D7FD2 /* keyboard_HL@2x.png */; };
+		4606BD671C44A253004D7FD2 /* keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5B1C44A253004D7FD2 /* keyboard@2x.png */; };
+		4606BD681C44A253004D7FD2 /* input-bar-flat.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5C1C44A253004D7FD2 /* input-bar-flat.png */; };
+		4606BD691C44A253004D7FD2 /* input-bar-flat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5D1C44A253004D7FD2 /* input-bar-flat@2x.png */; };
+		4606BD6A1C44A253004D7FD2 /* multiMedia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5E1C44A253004D7FD2 /* multiMedia@2x.png */; };
+		4606BD6B1C44A253004D7FD2 /* multiMedia_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD5F1C44A253004D7FD2 /* multiMedia_HL@2x.png */; };
+		4606BD6C1C44A253004D7FD2 /* voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD601C44A253004D7FD2 /* voice@2x.png */; };
+		4606BD6D1C44A253004D7FD2 /* voice_HL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD611C44A253004D7FD2 /* voice_HL@2x.png */; };
+		4606BD6E1C44A253004D7FD2 /* VoiceBtn_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD621C44A253004D7FD2 /* VoiceBtn_Black@2x.png */; };
+		4606BD6F1C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD631C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png */; };
+		4606BD721C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD711C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m */; };
 		463DA98B1C42504000E35DD2 /* ReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 463DA98A1C42504000E35DD2 /* ReplyTableViewCell.m */; };
 		463DA98F1C433C0D00E35DD2 /* reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 463DA98E1C433C0D00E35DD2 /* reply@2x.png */; };
 		463DA9921C434CDD00E35DD2 /* more_favor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 463DA9901C434CDD00E35DD2 /* more_favor@2x.png */; };
@@ -103,6 +121,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4606BD491C44987C004D7FD2 /* XHMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHMessageInputView.h; sourceTree = "<group>"; };
+		4606BD4A1C44987C004D7FD2 /* XHMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHMessageInputView.m; sourceTree = "<group>"; };
+		4606BD4B1C44987C004D7FD2 /* XHMessageTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHMessageTextView.h; sourceTree = "<group>"; };
+		4606BD4C1C44987C004D7FD2 /* XHMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHMessageTextView.m; sourceTree = "<group>"; };
+		4606BD4D1C44987C004D7FD2 /* XHVoiceRecordHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHVoiceRecordHUD.h; sourceTree = "<group>"; };
+		4606BD4E1C44987C004D7FD2 /* XHVoiceRecordHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHVoiceRecordHUD.m; sourceTree = "<group>"; };
+		4606BD521C4498D1004D7FD2 /* NSString+MessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MessageInputView.h"; sourceTree = "<group>"; };
+		4606BD531C4498D1004D7FD2 /* NSString+MessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MessageInputView.m"; sourceTree = "<group>"; };
+		4606BD551C449901004D7FD2 /* XHConfigurationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHConfigurationHelper.h; sourceTree = "<group>"; };
+		4606BD561C449901004D7FD2 /* XHConfigurationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHConfigurationHelper.m; sourceTree = "<group>"; };
+		4606BD581C44A253004D7FD2 /* face@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "face@2x.png"; sourceTree = "<group>"; };
+		4606BD591C44A253004D7FD2 /* face_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "face_HL@2x.png"; sourceTree = "<group>"; };
+		4606BD5A1C44A253004D7FD2 /* keyboard_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_HL@2x.png"; sourceTree = "<group>"; };
+		4606BD5B1C44A253004D7FD2 /* keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard@2x.png"; sourceTree = "<group>"; };
+		4606BD5C1C44A253004D7FD2 /* input-bar-flat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "input-bar-flat.png"; sourceTree = "<group>"; };
+		4606BD5D1C44A253004D7FD2 /* input-bar-flat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "input-bar-flat@2x.png"; sourceTree = "<group>"; };
+		4606BD5E1C44A253004D7FD2 /* multiMedia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiMedia@2x.png"; sourceTree = "<group>"; };
+		4606BD5F1C44A253004D7FD2 /* multiMedia_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "multiMedia_HL@2x.png"; sourceTree = "<group>"; };
+		4606BD601C44A253004D7FD2 /* voice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voice@2x.png"; sourceTree = "<group>"; };
+		4606BD611C44A253004D7FD2 /* voice_HL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voice_HL@2x.png"; sourceTree = "<group>"; };
+		4606BD621C44A253004D7FD2 /* VoiceBtn_Black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VoiceBtn_Black@2x.png"; sourceTree = "<group>"; };
+		4606BD631C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VoiceBtn_BlackHL@2x.png"; sourceTree = "<group>"; };
+		4606BD701C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+XHkeyboardControl.h"; sourceTree = "<group>"; };
+		4606BD711C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+XHkeyboardControl.m"; sourceTree = "<group>"; };
 		463DA9891C42504000E35DD2 /* ReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyTableViewCell.h; sourceTree = "<group>"; };
 		463DA98A1C42504000E35DD2 /* ReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyTableViewCell.m; sourceTree = "<group>"; };
 		463DA98E1C433C0D00E35DD2 /* reply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply@2x.png"; sourceTree = "<group>"; };
@@ -270,6 +312,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4606BD481C44987C004D7FD2 /* MessageInputView */ = {
+			isa = PBXGroup;
+			children = (
+				4606BD701C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.h */,
+				4606BD711C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m */,
+				4606BD551C449901004D7FD2 /* XHConfigurationHelper.h */,
+				4606BD561C449901004D7FD2 /* XHConfigurationHelper.m */,
+				4606BD521C4498D1004D7FD2 /* NSString+MessageInputView.h */,
+				4606BD531C4498D1004D7FD2 /* NSString+MessageInputView.m */,
+				4606BD491C44987C004D7FD2 /* XHMessageInputView.h */,
+				4606BD4A1C44987C004D7FD2 /* XHMessageInputView.m */,
+				4606BD4B1C44987C004D7FD2 /* XHMessageTextView.h */,
+				4606BD4C1C44987C004D7FD2 /* XHMessageTextView.m */,
+				4606BD4D1C44987C004D7FD2 /* XHVoiceRecordHUD.h */,
+				4606BD4E1C44987C004D7FD2 /* XHVoiceRecordHUD.m */,
+			);
+			path = MessageInputView;
+			sourceTree = "<group>";
+		};
 		485302961C3F648F004361A7 /* Vender */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +607,7 @@
 		487D3EB31BCB9EC700A66173 /* SDAutoLayout 测试 Demo */ = {
 			isa = PBXGroup;
 			children = (
+				4606BD481C44987C004D7FD2 /* MessageInputView */,
 				99A6976F1C423B0D004EA699 /* SDAutoLayout */,
 				485303491C3F97AA004361A7 /* Others */,
 				485303021C3F977A004361A7 /* DemoVC */,
@@ -588,6 +650,18 @@
 		48DBCD0F1C01DEB1002EC476 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4606BD581C44A253004D7FD2 /* face@2x.png */,
+				4606BD591C44A253004D7FD2 /* face_HL@2x.png */,
+				4606BD5A1C44A253004D7FD2 /* keyboard_HL@2x.png */,
+				4606BD5B1C44A253004D7FD2 /* keyboard@2x.png */,
+				4606BD5C1C44A253004D7FD2 /* input-bar-flat.png */,
+				4606BD5D1C44A253004D7FD2 /* input-bar-flat@2x.png */,
+				4606BD5E1C44A253004D7FD2 /* multiMedia@2x.png */,
+				4606BD5F1C44A253004D7FD2 /* multiMedia_HL@2x.png */,
+				4606BD601C44A253004D7FD2 /* voice@2x.png */,
+				4606BD611C44A253004D7FD2 /* voice_HL@2x.png */,
+				4606BD621C44A253004D7FD2 /* VoiceBtn_Black@2x.png */,
+				4606BD631C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png */,
 				46DE36DE1C4386150004CF17 /* icon_vidoe_play@2x.png */,
 				463DA9901C434CDD00E35DD2 /* more_favor@2x.png */,
 				463DA9911C434CDD00E35DD2 /* more_reply@2x.png */,
@@ -705,9 +779,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				48DBCD1A1C01E045002EC476 /* icon0.jpg in Resources */,
+				4606BD671C44A253004D7FD2 /* keyboard@2x.png in Resources */,
 				4841F5E91C2ABC60004979F4 /* pic5.jpg in Resources */,
 				4841F5EB1C2ABC60004979F4 /* pic7.jpg in Resources */,
+				4606BD661C44A253004D7FD2 /* keyboard_HL@2x.png in Resources */,
 				48DBCD221C01E045002EC476 /* pic3.jpg in Resources */,
+				4606BD681C44A253004D7FD2 /* input-bar-flat.png in Resources */,
 				48DBCD211C01E045002EC476 /* pic2.jpg in Resources */,
 				48DBCD231C01E045002EC476 /* pic4.jpg in Resources */,
 				463DA9931C434CDD00E35DD2 /* more_reply@2x.png in Resources */,
@@ -716,17 +793,26 @@
 				4841F5F21C2ACC2B004979F4 /* pbg.jpg in Resources */,
 				487D3EC01BCB9EC700A66173 /* Main.storyboard in Resources */,
 				4841F5F31C2ACC2B004979F4 /* picon.jpg in Resources */,
+				4606BD6B1C44A253004D7FD2 /* multiMedia_HL@2x.png in Resources */,
 				48DBCD1B1C01E045002EC476 /* icon1.jpg in Resources */,
+				4606BD6E1C44A253004D7FD2 /* VoiceBtn_Black@2x.png in Resources */,
+				4606BD6D1C44A253004D7FD2 /* voice_HL@2x.png in Resources */,
 				48DBCD201C01E045002EC476 /* pic1.jpg in Resources */,
 				4841F5EA1C2ABC60004979F4 /* pic6.jpg in Resources */,
+				4606BD691C44A253004D7FD2 /* input-bar-flat@2x.png in Resources */,
 				487D3EC51BCB9EC700A66173 /* LaunchScreen.xib in Resources */,
 				48DBCD1D1C01E045002EC476 /* icon3.jpg in Resources */,
 				4841F5EC1C2ABC60004979F4 /* pic8.jpg in Resources */,
 				463DA98F1C433C0D00E35DD2 /* reply@2x.png in Resources */,
 				463DA9921C434CDD00E35DD2 /* more_favor@2x.png in Resources */,
 				487D3EC21BCB9EC700A66173 /* Images.xcassets in Resources */,
+				4606BD651C44A253004D7FD2 /* face_HL@2x.png in Resources */,
 				48DBCD1C1C01E045002EC476 /* icon2.jpg in Resources */,
+				4606BD6F1C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png in Resources */,
+				4606BD6A1C44A253004D7FD2 /* multiMedia@2x.png in Resources */,
 				48DBCD1E1C01E045002EC476 /* icon4.jpg in Resources */,
+				4606BD641C44A253004D7FD2 /* face@2x.png in Resources */,
+				4606BD6C1C44A253004D7FD2 /* voice@2x.png in Resources */,
 				46DE36DF1C4386150004CF17 /* icon_vidoe_play@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,6 +831,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4606BD721C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m in Sources */,
 				485303411C3F977A004361A7 /* DemoVC7Cell2.m in Sources */,
 				4853033C1C3F977A004361A7 /* DemoVC5CellTableViewCell.m in Sources */,
 				485303501C3F97AA004361A7 /* AppDelegate.m in Sources */,
@@ -760,6 +847,7 @@
 				485303421C3F977A004361A7 /* DemoVC7Model.m in Sources */,
 				485302CE1C3F6490004361A7 /* SDWaitingView.m in Sources */,
 				485302DF1C3F6490004361A7 /* UIImage+MultiFormat.m in Sources */,
+				4606BD501C44987C004D7FD2 /* XHMessageTextView.m in Sources */,
 				485302D91C3F6490004361A7 /* SDWebImageDownloader.m in Sources */,
 				485303361C3F977A004361A7 /* DemoVC1.m in Sources */,
 				485302F71C3F65EE004361A7 /* TAPageControl.m in Sources */,
@@ -782,12 +870,16 @@
 				485302D61C3F6490004361A7 /* SDImageCache.m in Sources */,
 				485303551C3F97E6004361A7 /* DemoCell.m in Sources */,
 				485303391C3F977A004361A7 /* TestCell2.m in Sources */,
+				4606BD511C44987C004D7FD2 /* XHVoiceRecordHUD.m in Sources */,
+				4606BD541C4498D1004D7FD2 /* NSString+MessageInputView.m in Sources */,
 				485302CC1C3F6490004361A7 /* SDBrowserImageView.m in Sources */,
 				485302CD1C3F6490004361A7 /* SDPhotoBrowser.m in Sources */,
 				485303511C3F97AA004361A7 /* DemoTableViewControler.m in Sources */,
 				485302F41C3F65EE004361A7 /* TAAbstractDotView.m in Sources */,
+				4606BD571C449901004D7FD2 /* XHConfigurationHelper.m in Sources */,
 				485302F81C3F65EE004361A7 /* SDCollectionViewCell.m in Sources */,
 				485302DA1C3F6490004361A7 /* SDWebImageDownloaderOperation.m in Sources */,
+				4606BD4F1C44987C004D7FD2 /* XHMessageInputView.m in Sources */,
 				485303521C3F97AA004361A7 /* ViewController.m in Sources */,
 				99A697741C423B0D004EA699 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				485302D71C3F6490004361A7 /* SDWebImageCompat.m in Sources */,
