@@ -29,7 +29,7 @@
 #import "UIView+SDAutoLayout.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
 #import "SDWeiXinPhotoContainerView.h"
-#import "ReplyTableViewCell.h"
+
 #define kReplyTableViewCellId @"replytableviewcell"
 
 @implementation DemoVC9Cell
@@ -141,13 +141,13 @@
     }];
     self.contentView.backgroundColor = [UIColor whiteColor];
     UIView *contentView = self.contentView;
-    CGFloat margin = 10;
+    CGFloat margin = kContentMargin;
     
     _iconView.sd_layout
     .leftSpaceToView(contentView, margin)
     .topSpaceToView(contentView, margin + 5)
-    .widthIs(42)
-    .heightIs(42);
+    .widthIs(kAvatarSize)
+    .heightIs(kAvatarSize);
     
     _nameLable.sd_layout
     .leftSpaceToView(_iconView, margin)
@@ -271,22 +271,22 @@
     _contentLabel.text = model.content;
     _picContainerView.picPathStringsArray = model.picNamesArray;
     if ([model.type isEqualToString:@"txt"]) {
-        _picContainerView.sd_layout.topSpaceToView(_contentLabel, 10);
+        _picContainerView.sd_layout.topSpaceToView(_contentLabel, kContentMargin);
         _timeLabel.sd_layout
-        .topSpaceToView(_picContainerView, 10);
+        .topSpaceToView(_picContainerView, kContentMargin);
         _moreButton.sd_layout
-        .topSpaceToView(_picContainerView, 5);
+        .topSpaceToView(_picContainerView, kContentMargin/2);
         _moreView.sd_layout
         .topSpaceToView(_picContainerView, 3);
         _urlView.hidden = YES;
         _videoView.hidden = YES;
     }
     else if ([model.type isEqualToString:@"video"]){
-        _videoView.sd_layout.topSpaceToView(_contentLabel, 10);
+        _videoView.sd_layout.topSpaceToView(_contentLabel, kContentMargin);
         _timeLabel.sd_layout
-        .topSpaceToView(_videoView, 10);
+        .topSpaceToView(_videoView, kContentMargin);
         _moreButton.sd_layout
-        .topSpaceToView(_videoView, 5);
+        .topSpaceToView(_videoView, kContentMargin/2);
         _moreView.sd_layout
         .topSpaceToView(_videoView, 3);
         _urlView.hidden = YES;
@@ -295,11 +295,11 @@
                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
     else {
-        _urlView.sd_layout.topSpaceToView(_contentLabel, 10);
+        _urlView.sd_layout.topSpaceToView(_contentLabel, kContentMargin);
         _timeLabel.sd_layout
-        .topSpaceToView(_urlView, 10);
+        .topSpaceToView(_urlView, kContentMargin);
         _moreButton.sd_layout
-        .topSpaceToView(_urlView, 5);
+        .topSpaceToView(_urlView, kContentMargin/2);
         _moreView.sd_layout
         .topSpaceToView(_urlView, 3);
         _videoView.hidden = YES;
@@ -349,12 +349,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate replyTimeline:_model atIndex:_row atCommentIndex:indexPath.row];
 }
 
 -(void)didClickMore:(id)sender
 {
-    _moreView.hidden = !_moreView.hidden;
-    [self.delegate showMoreView:_row];
+    [self.delegate showMoreView:_row fromCell:self];
 }
 
 -(void)didClickMoreFavor:(id)sender

@@ -23,12 +23,16 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
+#import "ReplyTableViewCell.h"
+#define kAvatarSize 42
+#define kContentMargin 10
 @class Demo9Model;
-
+@class DemoVC9Cell;
 @protocol DemoVC9CellDelegate <NSObject>
--(void)showMoreView:(NSInteger)row;
+-(void)showMoreView:(NSInteger)row fromCell:(DemoVC9Cell *)cell;
 -(void)favorTimeline:(Demo9Model *)model;
 -(void)replyTimeline:(Demo9Model *)model;
+-(void)replyTimeline:(Demo9Model *)model atIndex:(NSInteger)index atCommentIndex:(NSInteger)row;
 
 @end
 

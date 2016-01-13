@@ -9,6 +9,8 @@
 #import "ReplyTableViewCell.h"
 #import "UIView+SDAutoLayout.h"
 
+
+
 @implementation ReplyTableViewCell
 {
     UILabel *_contentLabel;
@@ -32,12 +34,12 @@
     [self.contentView addSubview:_contentLabel];
     
     UIView *contentView = self.contentView;
-    CGFloat margin = 6;
+    CGFloat margin = kReplyLabelMargin;
     
     _contentLabel.sd_layout
-    .leftSpaceToView(contentView, margin)
+    .leftSpaceToView(contentView, margin/2)
     .topSpaceToView(contentView, margin/2)
-    .rightSpaceToView(contentView, 0)
+    .rightSpaceToView(contentView, margin/2)
     .autoHeightRatio(0);
     
     [self setupAutoHeightWithBottomView:_contentLabel bottomMargin:margin/2];

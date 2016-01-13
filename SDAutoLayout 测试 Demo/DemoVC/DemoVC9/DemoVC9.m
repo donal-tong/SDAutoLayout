@@ -321,7 +321,7 @@
         }
         CGFloat h = 0;
         for (NSString *txt in model.replyArray) {
-            h += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:txt andFixedWidth:([UIScreen mainScreen].bounds.size.width-30-42)] + 6);
+            h += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:txt andFixedWidth:([UIScreen mainScreen].bounds.size.width-3*kContentMargin-kAvatarSize-kReplyLabelMargin)] + kReplyLabelMargin);
         }
         model.replyHeight = h;
         
@@ -381,12 +381,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - touch
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    self.messageInputView.hidden = YES;
-    [self.messageInputView.inputTextView resignFirstResponder];
-}
+//#pragma mark - touch
+//-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+//{
+//    self.messageInputView.hidden = YES;
+//    [self.messageInputView.inputTextView resignFirstResponder];
+//}
 
 #pragma mark - scrollview delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -422,21 +422,44 @@
     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+(self.view.height - self.originalContentOffsetY)) animated:NO];
 }
 
--(void)showMoreView:(NSInteger)row
+-(void)replyTimeline:(Demo9Model *)model atIndex:(NSInteger)index atCommentIndex:(NSInteger)row;
 {
     if (!self.messageInputView.hidden) {
         self.messageInputView.hidden = YES;
         [self.messageInputView.inputTextView resignFirstResponder];
         return;
     }
+    if (_currentRow > -1) {
+        DemoVC9Cell *lastCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0]];
+        lastCell.moreView.hidden = YES;
+    }
+    self.messageInputView.hidden = NO;
+    [self.messageInputView.inputTextView becomeFirstResponder];
+    if (self.originalContentOffsetY==0) {
+        self.originalContentOffsetY = self.messageInputView.top;
+    }
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    //TODO 计算出row后面几行的高度和
+    CGFloat leftHeight = kContentMargin;
+    for (NSInteger i=(row+1); i<model.replyArray.count; i++) {
+       leftHeight += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:model.replyArray[i] andFixedWidth:([UIScreen mainScreen].bounds.size.width-3*kContentMargin-kAvatarSize-kReplyLabelMargin)] + kReplyLabelMargin);
+    }
+    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y+(self.view.height - self.originalContentOffsetY)-leftHeight) animated:NO];
+}
+
+-(void)showMoreView:(NSInteger)row fromCell:(DemoVC9Cell *)cell
+{
+    if (!self.messageInputView.hidden) {
+        self.messageInputView.hidden = YES;
+        [self.messageInputView.inputTextView resignFirstResponder];
+        return;
+    }
+    cell.moreView.hidden = !cell.moreView.hidden;
     if (_currentRow > -1 && _currentRow != row) {
-        DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0]];
-        cell.moreView.hidden = YES;
+        DemoVC9Cell *lastCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentRow inSection:0]];
+        lastCell.moreView.hidden = YES;
     }
     _currentRow = row;
-    
-//    DemoVC9Cell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:currentRow inSection:0]];
-    
 }
 
 #pragma mark - UITextView Helper Method

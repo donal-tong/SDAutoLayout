@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define kReplyLabelMargin 6
 @interface ReplyTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) NSString *model;
