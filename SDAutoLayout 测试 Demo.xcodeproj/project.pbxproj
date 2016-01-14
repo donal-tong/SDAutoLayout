@@ -25,6 +25,7 @@
 		4606BD6E1C44A253004D7FD2 /* VoiceBtn_Black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD621C44A253004D7FD2 /* VoiceBtn_Black@2x.png */; };
 		4606BD6F1C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4606BD631C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png */; };
 		4606BD721C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4606BD711C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m */; };
+		4607E9B41C478D350013FE83 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4607E9B31C478D350013FE83 /* libc++abi.tbd */; };
 		463DA98B1C42504000E35DD2 /* ReplyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 463DA98A1C42504000E35DD2 /* ReplyTableViewCell.m */; };
 		463DA98F1C433C0D00E35DD2 /* reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 463DA98E1C433C0D00E35DD2 /* reply@2x.png */; };
 		463DA9921C434CDD00E35DD2 /* more_favor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 463DA9901C434CDD00E35DD2 /* more_favor@2x.png */; };
@@ -145,6 +146,7 @@
 		4606BD631C44A253004D7FD2 /* VoiceBtn_BlackHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VoiceBtn_BlackHL@2x.png"; sourceTree = "<group>"; };
 		4606BD701C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+XHkeyboardControl.h"; sourceTree = "<group>"; };
 		4606BD711C44A5A6004D7FD2 /* UIScrollView+XHkeyboardControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+XHkeyboardControl.m"; sourceTree = "<group>"; };
+		4607E9B31C478D350013FE83 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
 		463DA9891C42504000E35DD2 /* ReplyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyTableViewCell.h; sourceTree = "<group>"; };
 		463DA98A1C42504000E35DD2 /* ReplyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyTableViewCell.m; sourceTree = "<group>"; };
 		463DA98E1C433C0D00E35DD2 /* reply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply@2x.png"; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4607E9B41C478D350013FE83 /* libc++abi.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,6 +592,7 @@
 		487D3EA81BCB9EC700A66173 = {
 			isa = PBXGroup;
 			children = (
+				4607E9B31C478D350013FE83 /* libc++abi.tbd */,
 				487D3EB31BCB9EC700A66173 /* SDAutoLayout 测试 Demo */,
 				487D3ECD1BCB9EC700A66173 /* SDAutoLayout 测试 DemoTests */,
 				487D3EB21BCB9EC700A66173 /* Products */,

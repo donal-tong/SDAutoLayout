@@ -122,7 +122,6 @@
     _moreSeperatorView.backgroundColor = [UIColor colorWithRed:55/255.0 green:61/255.0 blue:64/255.0 alpha:1.0];
     
     _favorLabel = [UILabel new];
-    [_favorLabel setLayoutMargins:UIEdgeInsetsMake(5, 0, 5, 0)];
     _favorLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
     _favorLabel.textColor = [UIColor colorWithRed:87/255.0 green:107/255.0 blue:149/255.0 alpha:1.0];
     _favorLabel.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
