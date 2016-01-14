@@ -558,10 +558,13 @@
 //}
 //
 - (void)didSendTextAction:(NSString *)text {
-    NSLog(@"text : %@", text);
-//    if ([self.delegate respondsToSelector:@selector(didSendText:fromSender:onDate:)]) {
-//        [self.delegate didSendText:text fromSender:self.messageSender onDate:[NSDate date]];
-//    }
+    Demo9Model *model = _modelsArray[_currentRow];
+    [model.replyArray addObject:text];
+    model.replyHeight += ([self getViewHeightWithUIFont:[UIFont systemFontOfSize:15] andText:text andFixedWidth:([UIScreen mainScreen].bounds.size.width-3*kContentMargin-kAvatarSize-kReplyLabelMargin*2)] + kReplyLabelMargin);
+    [self.tableView reloadData];
+    self.messageInputView.hidden = YES;
+    [self.messageInputView.inputTextView resignFirstResponder];
+    self.messageInputView.inputTextView.text = @"";
 }
 //
 //- (void)didSelectedMultipleMediaAction {
