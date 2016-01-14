@@ -311,13 +311,14 @@
         // 模拟“评论”
         int random1 = arc4random_uniform(5);
         
+        model.replyArray = [NSMutableArray new];
         NSMutableArray *temp1 = [NSMutableArray new];
         for (int i = 0; i < random1; i++) {
             int randomIndex = arc4random_uniform(4);
             [temp1 addObject:replyArray[randomIndex]];
         }
         if (temp1.count) {
-            model.replyArray = [temp1 copy];
+            [model.replyArray addObjectsFromArray:temp1];
         }
         CGFloat h = 0;
         for (NSString *txt in model.replyArray) {

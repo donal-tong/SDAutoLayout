@@ -30,7 +30,7 @@
     _contentLabel = [UILabel new];
     _contentLabel.font = [UIFont systemFontOfSize:15];
     self.contentView.backgroundColor = [UIColor colorWithRed:243/255.0 green:243/255.0 blue:245/255.0 alpha:1.0];
-    
+    _contentLabel.textColor = [UIColor blackColor];
     [self.contentView addSubview:_contentLabel];
     
     UIView *contentView = self.contentView;
